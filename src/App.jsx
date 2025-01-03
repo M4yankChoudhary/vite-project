@@ -8,47 +8,47 @@ function App() {
   const [items, setItems] = useState('');
   const [itemBreakdown, setItemBreakdown] = useState([]);
 
-// Function to generate random breakdown but ensure total is accurate and amounts end in zero, with minimum value of 1/4 of total value
-// Function to generate random breakdown but ensure total is accurate and amounts end in zero
-const generateUnevenBreakdown = () => {
-  if (name && totalValue && items) {
-    const itemList = items.split(',').map(item => item.trim());
-    let totalAmount = parseInt(totalValue); // Convert to integer to avoid decimals
+  // Function to generate random breakdown but ensure total is accurate and amounts end in zero, with minimum value of 1/4 of total value
+  // Function to generate random breakdown but ensure total is accurate and amounts end in zero
+  const generateUnevenBreakdown = () => {
+    if (name && totalValue && items) {
+      const itemList = items.split(',').map(item => item.trim());
+      let totalAmount = parseInt(totalValue); // Convert to integer to avoid decimals
 
-    // Create an array of random amounts that sum up to totalAmount
-    let amounts = [];
-    let remainingAmount = totalAmount;
+      // Create an array of random amounts that sum up to totalAmount
+      let amounts = [];
+      let remainingAmount = totalAmount;
 
-    // Function to round to the nearest 10, 100, or 1000
-    const roundToNearest = (value, multiple) => {
-      return Math.floor(value / multiple) * multiple;
-    };
+      // Function to round to the nearest 10, 100, or 1000
+      const roundToNearest = (value, multiple) => {
+        return Math.floor(value / multiple) * multiple;
+      };
 
-    // Generate random amounts for each item
-    itemList.forEach((item, index) => {
-      let randomAmount = Math.floor(Math.random() * (remainingAmount / itemList.length)) + 1000; // Reasonable random value
-      randomAmount = roundToNearest(randomAmount, 100); // Round to nearest 100
+      // Generate random amounts for each item
+      itemList.forEach((item, index) => {
+        let randomAmount = Math.floor(Math.random() * (remainingAmount / itemList.length)) + 1000; // Reasonable random value
+        randomAmount = roundToNearest(randomAmount, 100); // Round to nearest 100
 
-      // Ensure we don't exceed the remaining amount
-      randomAmount = Math.min(randomAmount, remainingAmount - (itemList.length - index - 1) * 1000); // Avoid going below 0 for remaining items
+        // Ensure we don't exceed the remaining amount
+        randomAmount = Math.min(randomAmount, remainingAmount - (itemList.length - index - 1) * 1000); // Avoid going below 0 for remaining items
 
-      amounts.push(randomAmount);
-      remainingAmount -= randomAmount;
-    });
+        amounts.push(randomAmount);
+        remainingAmount -= randomAmount;
+      });
 
-    // Ensure the remaining amount is added to the last item
-    amounts[amounts.length - 1] += remainingAmount;
-    amounts[amounts.length - 1] = roundToNearest(amounts[amounts.length - 1], 100); // Round the final amount
+      // Ensure the remaining amount is added to the last item
+      amounts[amounts.length - 1] += remainingAmount;
+      amounts[amounts.length - 1] = roundToNearest(amounts[amounts.length - 1], 100); // Round the final amount
 
-    // Create the breakdown array
-    const breakdown = itemList.map((item, index) => ({
-      name: item,
-      value: amounts[index],
-    }));
+      // Create the breakdown array
+      const breakdown = itemList.map((item, index) => ({
+        name: item,
+        value: amounts[index],
+      }));
 
-    setItemBreakdown(breakdown);
-  }
-};
+      setItemBreakdown(breakdown);
+    }
+  };
 
 
 
@@ -140,76 +140,136 @@ const generateUnevenBreakdown = () => {
       </div>
 
       {/* Live PDF Preview */}
-      <div  id='content-to-pdf' style={{
-               display:'flex',
-               justifyContent:'center',
-               alignItems:'center',
-             
+      <div id='content-to-pdf' style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+
       }}>
- <div className="pdf-preview"  style={{
-        marginTop:"100px",
-        borderRadius:'0px',
-        width: '700px',
-        borderTop:'4px solid black',
-        borderBottom:'4px solid black',
-      
- 
-      }}>
-        <div className="pdf-header">
-          <div className="company-name" style={{
-            fontSize: '36px',
-            textAlign:'center',
-            marginLeft:'82px',
-            marginBottom: '22px',
-            textTransform:'uppercase'
-          }} >Wave Multitrade</div>
+        <div className="pdf-preview" style={{
+          marginTop: "100px",
+          borderRadius: '0px',
+          width: '700px',
+
+
+
+        }}>
           <div style={{
-            marginTop:'62px'
-          }} className="invoice-details">
-            <p><strong>Invoice Number:</strong> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  </p>
-            <p><strong>Invoice Date:</strong>  &nbsp;  &nbsp;   &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;   &nbsp;  &nbsp; </p>
+            height: '4px',
+            width: '100%',
+            background: 'black',
+            marginBottom: '6px'
+          }}></div>
+          <div style={{
+            height: '16px',
+            width: '100%',
+            background: 'black'
+          }}></div>
+          <div className="pdf-header">
+            <div className="company-name" style={{
+              fontSize: '36px',
+              textAlign: 'center',
+              fontWeight: 'bolder',
+              marginBottom: '22px',
+              marginLeft:'12px',
+              textTransform: 'uppercase'
+            }} >Wave Multitrade</div>
+            <div style={{
+
+            }} className="invoice-details">
+              <p><strong>Invoice Number:</strong> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  </p>
+              <p><strong>Invoice Date:</strong>  &nbsp;  &nbsp;   &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;   &nbsp;  &nbsp; </p>
+            </div>
           </div>
-        </div>
-        <p style={{
-          fontSize:'22px'
-        }}><strong>Name:</strong> {name}</p>
-        <table className="preview-table">
-          <thead>
-            <tr>
-              <th >Sr. No.</th>
-              <th>Description</th>
-              <th>Amount (₹)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {itemBreakdown.map((item, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{item.name}</td>
-                <td>₹{item.value}</td>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row'
+          }}>
+            <p style={{
+              fontSize: '22px',
+
+            }}><strong>Name:</strong></p>
+            <p style={{
+              fontSize: '22px',
+              width: '100%',
+              marginLeft: '12px',
+              borderBottom: '1px solid black',
+            }}>{name}</p>
+          </div>
+          <div style={{
+            display: 'flex',
+            marginTop: '-24px',
+            marginBottom: '12px',
+            flexDirection: 'row'
+          }}>
+            <p style={{
+              fontSize: '22px',
+
+            }}><strong>Address:</strong></p>
+            <p style={{
+              fontSize: '22px',
+              width: '100%',
+              marginLeft: '12px',
+              borderBottom: '1px solid black',
+            }}></p>
+          </div>
+
+          <table className="preview-table">
+            <thead>
+              <tr>
+                <th style={{
+                  width: "70px"
+                }}>Sr. No.</th>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>Amount (₹)</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="total-amount">
-          <strong>Total: ₹{itemBreakdown.reduce((total, item) => total + item.value, 0)}</strong>
-        </div>
-        <div className="terms">
-          <p><strong>Terms and Conditions:</strong></p>
+            </thead>
+            <tbody>
+              {itemBreakdown.map((item, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{item.name}</td>
+                  <td></td>
+                  <td>₹{item.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <div className="total-amount">
+            <strong>Ruppes in word</strong>
+            <strong>Total: ₹{itemBreakdown.reduce((total, item) => total + item.value, 0)}</strong>
+          </div>
+          <div className="terms">
+            <p><strong>Terms and Conditions:</strong></p>
+
+          </div>
+          <div className="signature">
+            <p><strong>Signature:</strong> ____________________</p>
+          </div>
          
+          <div style={{
+            height: '16px',
+            width: '100%',
+            background: 'black',
+              marginBottom: '6px'
+          }}></div>
+           <div style={{
+            height: '4px',
+            width: '100%',
+            background: 'black',
+          
+          }}></div>
         </div>
-        <div className="signature">
-          <p><strong>Signature:</strong> ____________________</p>
-        </div>
-       
+        
       </div>
-      </div>
-     
+
       <button style={{
-        marginTop:"72px"
+        marginTop: "72px"
       }} className="download-btn" onClick={handleDownload}>
-          Download as PDF
-        </button>
+        Download as PDF
+      </button>
     </div>
   );
 }
