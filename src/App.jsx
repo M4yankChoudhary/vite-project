@@ -14,44 +14,44 @@ function App() {
     if (name && totalValue && items) {
       const itemList = items.split(',').map(item => item.trim());
       let totalAmount = parseInt(totalValue); // Convert to integer to avoid decimals
+      const numItems = itemList.length;
   
-      // Create an array of amounts with a minimum of 19% per item
+      // Calculate the minimum amount for each item (19% of total value)
+      const minAmount = Math.ceil((19 / 100) * totalAmount);
+  
+      // Ensure there is enough room for randomness
+      if (minAmount * numItems > totalAmount) {
+        console.error("Total value is too low to satisfy the 19% minimum requirement for all items.");
+        return;
+      }
+  
       let amounts = [];
       let remainingAmount = totalAmount;
   
-      // Calculate the minimum amount for each item
-      const minAmount = Math.ceil((19 / 100) * totalAmount);
-  
-      // Function to round to the nearest 10, 100, or 1000
-      const roundToNearest = (value, multiple) => {
-        return Math.floor(value / multiple) * multiple;
-      };
-  
-      // Distribute the minimum amount to each item
-      itemList.forEach((item, index) => {
-        let baseAmount = roundToNearest(minAmount, 100);
-        baseAmount = Math.min(baseAmount, remainingAmount - (itemList.length - index - 1) * 1000); // Ensure we don't overallocate
-        amounts.push(baseAmount);
+      // Distribute minimum amounts first
+      for (let i = 0; i < numItems; i++) {
+        let baseAmount = minAmount;
         remainingAmount -= baseAmount;
-      });
+        amounts.push(baseAmount);
+      }
   
-      // Distribute the remaining amount unevenly across the items
-      itemList.forEach((item, index) => {
-        if (remainingAmount > 0) {
-          let randomAmount = Math.floor(Math.random() * (remainingAmount / itemList.length)) + 1000; // Reasonable random value
-          randomAmount = roundToNearest(randomAmount, 100); // Round to nearest 100
+      // Add randomness to the amounts while ensuring the total remains valid
+      for (let i = 0; i < numItems - 1; i++) {
+        let maxAddable = Math.min(remainingAmount, Math.floor(totalAmount / numItems));
+        let randomAddition = Math.floor(Math.random() * maxAddable);
   
-          // Ensure we don't exceed the remaining amount
-          randomAmount = Math.min(randomAmount, remainingAmount - (itemList.length - index - 1) * 1000);
+        amounts[i] += randomAddition;
+        remainingAmount -= randomAddition;
+      }
   
-          amounts[index] += randomAmount;
-          remainingAmount -= randomAmount;
-        }
-      });
+      // Add remaining amount to the last item
+      amounts[numItems - 1] += remainingAmount;
   
-      // Ensure the remaining amount is added to the last item
-      amounts[amounts.length - 1] += remainingAmount;
-      amounts[amounts.length - 1] = roundToNearest(amounts[amounts.length - 1], 100); // Round the final amount
+      // Ensure randomness and round amounts to the nearest 100
+      amounts = amounts.map(amount => Math.floor(amount / 100) * 100);
+  
+      // Shuffle amounts to avoid predictable patterns
+      amounts = amounts.sort(() => Math.random() - 0.5);
   
       // Create the breakdown array
       const breakdown = itemList.map((item, index) => ({
@@ -62,6 +62,7 @@ function App() {
       setItemBreakdown(breakdown);
     }
   };
+  
   
 
 
