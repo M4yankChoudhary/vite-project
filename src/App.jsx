@@ -149,7 +149,7 @@ function App() {
         <div className="pdf-preview" style={{
           marginTop: "100px",
           borderRadius: '0px',
-          width: '700px',
+          width: '800px',
 
 
 
@@ -158,29 +158,42 @@ function App() {
             height: '4px',
             width: '100%',
             background: 'black',
-            marginBottom: '6px'
+            marginBottom: '6px',
           }}></div>
           <div style={{
             height: '16px',
             width: '100%',
-            background: 'black'
+            background: 'black',
+            marginBottom: '24px',
           }}></div>
-          <div className="pdf-header">
-            <div className="company-name" style={{
+           <div style={{
+             width:'100%',
+             textAlign:'center',
+             display:'flex',
+             justifyContent:'center'
+           }}>
+           <span style={{
+              width:'100%',
+            
+              textAlign:'center',
               fontSize: '36px',
-              textAlign: 'center',
+
               fontWeight: 'bolder',
               marginBottom: '22px',
-              marginLeft:'12px',
+              marginLeft: '12px',
               textTransform: 'uppercase'
-            }} >Wave Multitrade</div>
-            <div style={{
+            }}>Wave Multitrade</span>
+           </div>
 
-            }} className="invoice-details">
-              <p><strong>Invoice Number:</strong> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  </p>
-              <p><strong>Invoice Date:</strong>  &nbsp;  &nbsp;   &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;   &nbsp;  &nbsp; </p>
-            </div>
-          </div>
+           <div  className="" style={{
+  textAlign:'end'
+}}>
+  <p><strong>Invoice Number:</strong> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  </p>
+  <p style={{
+    marginTop:'-12px'
+  }}><strong>Invoice Date:</strong>  &nbsp;  &nbsp;   &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;   &nbsp;  &nbsp; </p>
+</div>
+
           <div style={{
             display: 'flex',
             flexDirection: 'row'
@@ -214,14 +227,14 @@ function App() {
             }}></p>
           </div>
 
+
           <table className="preview-table">
             <thead>
               <tr>
                 <th style={{
-                  width: "70px"
+                  width: "52px"
                 }}>Sr. No.</th>
                 <th>Description</th>
-                <th>Qty</th>
                 <th>Amount (₹)</th>
               </tr>
             </thead>
@@ -230,7 +243,7 @@ function App() {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{item.name}</td>
-                  <td></td>
+              
                   <td>₹{item.value}</td>
                 </tr>
               ))}
@@ -248,21 +261,22 @@ function App() {
           <div className="signature">
             <p><strong>Signature:</strong> ____________________</p>
           </div>
-         
+
           <div style={{
             height: '16px',
             width: '100%',
+            marginTop: '24px',
             background: 'black',
-              marginBottom: '6px'
+            marginBottom: '6px'
           }}></div>
-           <div style={{
+          <div style={{
             height: '4px',
             width: '100%',
             background: 'black',
-          
+
           }}></div>
         </div>
-        
+
       </div>
 
       <button style={{
