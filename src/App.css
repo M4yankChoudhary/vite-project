@@ -1,0 +1,58 @@
+/* Styling for Live PDF Preview */
+.pdf-preview {
+  margin-top: 40px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.pdf-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.company-name {
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+}
+
+.invoice-details {
+  text-align: right;
+}
+
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.preview-table th, .preview-table td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.preview-table th {
+  background-color: #f4f4f4;
+}
+
+.total-amount {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.terms {
+  margin-top: 20px;
+}
+
+.signature {
+  margin-top: 30px;
+  text-align: right;
+  font-style: italic;
+}
