@@ -14,43 +14,78 @@ function App() {
     if (name && totalValue && items) {
       const itemList = items.split(',').map(item => item.trim());
       let totalAmount = parseInt(totalValue); // Convert to integer to avoid decimals
-
-      // Create an array of random amounts that sum up to totalAmount
+  
+      // Create an array of amounts with a minimum of 19% per item
       let amounts = [];
       let remainingAmount = totalAmount;
-
+  
+      // Calculate the minimum amount for each item
+      const minAmount = Math.ceil((19 / 100) * totalAmount);
+  
       // Function to round to the nearest 10, 100, or 1000
       const roundToNearest = (value, multiple) => {
         return Math.floor(value / multiple) * multiple;
       };
-
-      // Generate random amounts for each item
+  
+      // Distribute the minimum amount to each item
       itemList.forEach((item, index) => {
-        let randomAmount = Math.floor(Math.random() * (remainingAmount / itemList.length)) + 1000; // Reasonable random value
-        randomAmount = roundToNearest(randomAmount, 100); // Round to nearest 100
-
-        // Ensure we don't exceed the remaining amount
-        randomAmount = Math.min(randomAmount, remainingAmount - (itemList.length - index - 1) * 1000); // Avoid going below 0 for remaining items
-
-        amounts.push(randomAmount);
-        remainingAmount -= randomAmount;
+        let baseAmount = roundToNearest(minAmount, 100);
+        baseAmount = Math.min(baseAmount, remainingAmount - (itemList.length - index - 1) * 1000); // Ensure we don't overallocate
+        amounts.push(baseAmount);
+        remainingAmount -= baseAmount;
       });
-
+  
+      // Distribute the remaining amount unevenly across the items
+      itemList.forEach((item, index) => {
+        if (remainingAmount > 0) {
+          let randomAmount = Math.floor(Math.random() * (remainingAmount / itemList.length)) + 1000; // Reasonable random value
+          randomAmount = roundToNearest(randomAmount, 100); // Round to nearest 100
+  
+          // Ensure we don't exceed the remaining amount
+          randomAmount = Math.min(randomAmount, remainingAmount - (itemList.length - index - 1) * 1000);
+  
+          amounts[index] += randomAmount;
+          remainingAmount -= randomAmount;
+        }
+      });
+  
       // Ensure the remaining amount is added to the last item
       amounts[amounts.length - 1] += remainingAmount;
       amounts[amounts.length - 1] = roundToNearest(amounts[amounts.length - 1], 100); // Round the final amount
-
+  
       // Create the breakdown array
       const breakdown = itemList.map((item, index) => ({
         name: item,
         value: amounts[index],
       }));
-
+  
       setItemBreakdown(breakdown);
     }
   };
+  
 
 
+  const numberToWords = (num) => {
+    const a = [
+      '', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten',
+      'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'
+    ];
+    const b = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+    const c = ['Hundred', 'Thousand', 'Lakh', 'Crore'];
+
+    if (num === 0) return 'Zero';
+
+    const makeWords = (n) => {
+      if (n < 20) return a[n];
+      if (n < 100) return b[Math.floor(n / 10)] + ' ' + a[n % 10];
+      if (n < 1000) return a[Math.floor(n / 100)] + ' ' + c[0] + ' ' + makeWords(n % 100);
+      if (n < 100000) return makeWords(Math.floor(n / 1000)) + ' ' + c[1] + ' ' + makeWords(n % 1000);
+      if (n < 10000000) return makeWords(Math.floor(n / 100000)) + ' ' + c[2] + ' ' + makeWords(n % 100000);
+      return makeWords(Math.floor(n / 10000000)) + ' ' + c[3] + ' ' + makeWords(n % 10000000);
+    };
+
+    return makeWords(num).trim() + ' Rupees Only';
+  };
 
   // Function to generate and download the HTML preview as PDF
   const downloadPDF = () => {
@@ -155,7 +190,7 @@ function App() {
 
         }}>
           <div style={{
-            height: '4px',
+            height: '1px',
             width: '100%',
             background: 'black',
             marginBottom: '6px',
@@ -166,16 +201,16 @@ function App() {
             background: 'black',
             marginBottom: '24px',
           }}></div>
-           <div style={{
-             width:'100%',
-             textAlign:'center',
-             display:'flex',
-             justifyContent:'center'
-           }}>
-           <span style={{
-              width:'100%',
-            
-              textAlign:'center',
+          <div style={{
+            width: '100%',
+            textAlign: 'center',
+            display: 'flex',
+            justifyContent: 'center'
+          }}>
+            <span style={{
+              width: '100%',
+
+              textAlign: 'center',
               fontSize: '36px',
 
               fontWeight: 'bolder',
@@ -183,16 +218,16 @@ function App() {
               marginLeft: '12px',
               textTransform: 'uppercase'
             }}>Wave Multitrade</span>
-           </div>
+          </div>
 
-           <div  className="" style={{
-  textAlign:'end'
-}}>
-  <p><strong>Invoice Number:</strong> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  </p>
-  <p style={{
-    marginTop:'-12px'
-  }}><strong>Invoice Date:</strong>  &nbsp;  &nbsp;   &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;   &nbsp;  &nbsp; </p>
-</div>
+          <div className="" style={{
+            textAlign: 'end'
+          }}>
+            <p><strong>Invoice Number:</strong> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  </p>
+            <p style={{
+              marginTop: '-12px'
+            }}><strong>Invoice Date:</strong>  &nbsp;  &nbsp;   &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;   &nbsp;  &nbsp; </p>
+          </div>
 
           <div style={{
             display: 'flex',
@@ -243,7 +278,7 @@ function App() {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{item.name}</td>
-              
+
                   <td>₹{item.value}</td>
                 </tr>
               ))}
@@ -251,7 +286,9 @@ function App() {
           </table>
 
           <div className="total-amount">
-            <strong>Ruppes in word</strong>
+            <strong style={{
+              fontSize: '12px'
+            }}>Rupees in word: {numberToWords(itemBreakdown.reduce((total, item) => total + item.value, 0))}</strong>
             <strong>Total: ₹{itemBreakdown.reduce((total, item) => total + item.value, 0)}</strong>
           </div>
           <div className="terms">
@@ -262,15 +299,9 @@ function App() {
             <p><strong>Signature:</strong> ____________________</p>
           </div>
 
+  
           <div style={{
-            height: '16px',
-            width: '100%',
-            marginTop: '24px',
-            background: 'black',
-            marginBottom: '6px'
-          }}></div>
-          <div style={{
-            height: '4px',
+            height: '20px',
             width: '100%',
             background: 'black',
 
