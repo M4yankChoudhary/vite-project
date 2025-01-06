@@ -1,12 +1,18 @@
 /* Styling for Live PDF Preview */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 .pdf-preview {
   margin-top: 40px;
   background-color: #fff;
-  padding: 20px;
+
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 600px;
   margin: 0 auto;
+}
+body{
+  font-family: 'Inter';
 }
 
 .pdf-header {
@@ -28,12 +34,13 @@
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
+
 }
 
 .preview-table th, .preview-table td {
   padding: 8px;
   text-align: left;
-  border: 1px solid black;
+  /* border: 1px solid black; */
 }
 
 .preview-table th {
@@ -44,10 +51,11 @@
   font-size: 16px;
   font-weight: bold;
   margin-top: 10px;
-  border: 1px solid black;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
   padding:6px;
   text-align: right;
-  padding-right: 135px;
+
   display: flex;
   justify-content: space-between;
 }

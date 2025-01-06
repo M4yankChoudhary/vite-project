@@ -15,55 +15,55 @@ function App() {
       const itemList = items.split(',').map(item => item.trim());
       let totalAmount = parseInt(totalValue); // Convert to integer to avoid decimals
       const numItems = itemList.length;
-  
+
       // Calculate the minimum amount for each item (19% of total value)
       const minAmount = Math.ceil((19 / 100) * totalAmount);
-  
+
       // Ensure there is enough room for randomness
       if (minAmount * numItems > totalAmount) {
         console.error("Total value is too low to satisfy the 19% minimum requirement for all items.");
         return;
       }
-  
+
       let amounts = [];
       let remainingAmount = totalAmount;
-  
+
       // Distribute minimum amounts first
       for (let i = 0; i < numItems; i++) {
         let baseAmount = minAmount;
         remainingAmount -= baseAmount;
         amounts.push(baseAmount);
       }
-  
+
       // Add randomness to the amounts while ensuring the total remains valid
       for (let i = 0; i < numItems - 1; i++) {
         let maxAddable = Math.min(remainingAmount, Math.floor(totalAmount / numItems));
         let randomAddition = Math.floor(Math.random() * maxAddable);
-  
+
         amounts[i] += randomAddition;
         remainingAmount -= randomAddition;
       }
-  
+
       // Add remaining amount to the last item
       amounts[numItems - 1] += remainingAmount;
-  
+
       // Ensure randomness and round amounts to the nearest 100
       amounts = amounts.map(amount => Math.floor(amount / 100) * 100);
-  
+
       // Shuffle amounts to avoid predictable patterns
       amounts = amounts.sort(() => Math.random() - 0.5);
-  
+
       // Create the breakdown array
       const breakdown = itemList.map((item, index) => ({
         name: item,
         value: amounts[index],
       }));
-  
+
       setItemBreakdown(breakdown);
     }
   };
-  
-  
+
+
 
 
   const numberToWords = (num) => {
@@ -180,17 +180,27 @@ function App() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        fontSize: '12px',
 
       }}>
         <div className="pdf-preview" style={{
-          marginTop: "100px",
+          padding:'6px',
+          marginTop:'100px',
+          borderRadius:'0px',
+          border:'1px solid black',
+          display:'flex',
+        }}>
+        <div  style={{
+       
           borderRadius: '0px',
           width: '800px',
 
+          border: '1px solid black',
+          boxShadow: '0 0 0 1px black',
 
 
         }}>
-          <div style={{
+          {/* <div style={{
             height: '1px',
             width: '100%',
             background: 'black',
@@ -201,114 +211,300 @@ function App() {
             width: '100%',
             background: 'black',
             marginBottom: '24px',
-          }}></div>
+          }}></div> */}
           <div style={{
             width: '100%',
             textAlign: 'center',
             display: 'flex',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            flexDirection: 'column',
+            marginBottom: '22px',
           }}>
             <span style={{
               width: '100%',
 
               textAlign: 'center',
-              fontSize: '36px',
-
+              fontSize: '42px',
+              fontFamily: 'ui-sans-serif',
               fontWeight: 'bolder',
-              marginBottom: '22px',
+              marginTop: '12px',
               marginLeft: '12px',
               textTransform: 'uppercase'
             }}>Wave Multitrade</span>
-          </div>
-
-          <div className="" style={{
-            textAlign: 'end'
-          }}>
-            <p><strong>Invoice Number:</strong> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  </p>
-            <p style={{
-              marginTop: '-12px'
-            }}><strong>Invoice Date:</strong>  &nbsp;  &nbsp;   &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;   &nbsp;  &nbsp; </p>
+            <span style={{
+              fontWeight: 'bold',
+              fontSize: '12px',
+            }}>M/28, FIR Mz 10/21, Flox Chamber, Road No.-1, Roxy Cinema,<br />
+              Opera House, Girgaon, Mumbai - 400004
+              E-mail: wavemultitrade@gmail.com</span>
           </div>
 
           <div style={{
-            display: 'flex',
-            flexDirection: 'row'
+            height: '1px',
+            backgroundColor: 'black',
+            width: '100%'
+          }}></div>
+          <div style={{
+            paddingLeft: '6px',
+            paddingRight: '6px',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            width: '100%',
           }}>
-            <p style={{
-              fontSize: '22px',
+            <div style={{
+              paddingLeft: '6px',
+              paddingRight: '6px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexDirection: 'row'
+            }}>
+              <p><strong>Sr. No.</strong> &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  </p>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'row',
+                paddingRight: '12px',
+              }}>
+                <p style={{
 
-            }}><strong>Name:</strong></p>
-            <p style={{
-              fontSize: '22px',
-              width: '100%',
-              marginLeft: '12px',
-              borderBottom: '1px solid black',
-            }}>{name}</p>
+
+                }}><strong>Date:</strong></p>
+                <p style={{
+                  width: '100px',
+                  marginLeft: '6px',
+                  borderBottom: '1px dotted black',
+                }}></p>
+              </div>
+            </div>
+
+          </div>
+
+          <div style={{
+            paddingLeft: '6px',
+            paddingRight: '6px',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            width: '100%',
+            marginTop: '-12px',
+          }}>
+            <div style={{
+              paddingLeft: '6px',
+              paddingRight: '6px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexDirection: 'row'
+            }}>
+
+              <div style={{
+                display: 'flex',
+                width: '100%',
+                flexDirection: 'row',
+                paddingRight: '12px',
+              }}>
+                <p style={{
+
+
+                }}><strong>Name:</strong></p>
+                <p style={{
+                  width: '100%',
+                  marginLeft: '6px',
+                  borderBottom: '1px dotted black',
+                }}>{name}</p>
+              </div>
+
+            </div>
+
           </div>
           <div style={{
-            display: 'flex',
-            marginTop: '-24px',
-            marginBottom: '12px',
-            flexDirection: 'row'
+            marginTop: '-4px',
+            paddingLeft: '6px',
+            paddingRight: '6px',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            width: '100%',
           }}>
-            <p style={{
-              fontSize: '22px',
+            <div style={{
+              paddingLeft: '6px',
+              paddingRight: '6px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexDirection: 'row'
+            }}>
 
-            }}><strong>Address:</strong></p>
-            <p style={{
-              fontSize: '22px',
-              width: '100%',
-              marginLeft: '12px',
-              borderBottom: '1px solid black',
-            }}></p>
+              <div style={{
+                display: 'flex',
+                width: '100%',
+                flexDirection: 'row',
+                paddingRight: '12px',
+              }}>
+                <p style={{
+
+
+                }}></p>
+                <p style={{
+                  width: '100%',
+                  marginLeft: '6px',
+                  borderBottom: '1px dotted black',
+                }}></p>
+              </div>
+
+            </div>
+
           </div>
+          {/* <div style={{
+            height: '1px',
+            backgroundColor: 'black',
+            width: '100%',
+            marginBottom:'12px'
+          }}></div> */}
+
+          <div style={{
+            // margin:'12px'
+          }}>
+            <table className="preview-table"
+            >
+              <thead>
+                <tr>
+                  <th style={{
+                    borderTop: '1px solid black',
+                    borderBottom: '1px solid black',
+                    borderRight: '1px solid black',
+                    width: "52px"
+                  }}>Sr. No.</th>
+                  <th
+
+                    style={{
+                      borderTop: '1px solid black',
+                      borderBottom: '1px solid black',
+                      borderRight: '1px solid black',
+
+                    }}>Description</th>
+                  <th
+
+                    style={{
+                      borderTop: '1px solid black',
+                      borderBottom: '1px solid black',
 
 
-          <table className="preview-table">
-            <thead>
-              <tr>
-                <th style={{
-                  width: "52px"
-                }}>Sr. No.</th>
-                <th>Description</th>
-                <th>Amount (₹)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {itemBreakdown.map((item, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{item.name}</td>
-
-                  <td>₹{item.value}</td>
+                    }}>Amount (₹)</th>
                 </tr>
-              ))}
+              </thead>
+              <tbody style={{
+                fontWeight: 'bold'
+              }}>
+                {itemBreakdown.map((item, index) => (
+                  <tr key={index}>
+                    <td style={{
+                      borderTop: '1px solid black',
+                      borderBottom: '1px solid black',
+                      borderRight: '1px solid black',
+
+                    }}>{index + 1}.</td>
+                    <td style={{
+                      borderTop: '1px solid black',
+                      borderBottom: '1px solid black',
+                      borderRight: '1px solid black',
+
+                    }}>{item.name}</td>
+
+                    <td style={{
+                      borderTop: '1px solid black',
+                      borderBottom: '1px solid black',
+
+
+                    }}>₹{item.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+
+
+          <table style={{
+            marginTop: '-22px',
+          }} className="preview-table"
+          >
+
+            <tbody style={{
+              fontWeight: 'bold'
+            }}>
+
+              <tr >
+                <td style={{
+                  width: '322px',
+
+                  borderBottom: '1px solid black',
+                  borderRight: '1px solid black',
+
+                }}> <strong style={{
+                  fontSize: '12px'
+                }}>Amount (in words) Rs: <span style={{
+                  borderBottom: '1px solid black',
+                  width:'100%',
+                }}>{numberToWords(itemBreakdown.reduce((total, item) => total + item.value, 0))}</span></strong></td>
+
+
+                <td style={{
+
+                  borderBottom: '1px solid black',
+
+
+                }}> <strong>Total: ₹{itemBreakdown.reduce((total, item) => total + item.value, 0)}</strong></td>
+              </tr>
+
             </tbody>
           </table>
+          {/* <div className="total-amount" style={{
 
-          <div className="total-amount">
+          }}>
             <strong style={{
               fontSize: '12px'
-            }}>Rupees in word: {numberToWords(itemBreakdown.reduce((total, item) => total + item.value, 0))}</strong>
+            }}>Amount (in words) Rs: {numberToWords(itemBreakdown.reduce((total, item) => total + item.value, 0))}</strong>
             <strong>Total: ₹{itemBreakdown.reduce((total, item) => total + item.value, 0)}</strong>
+          </div> */}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+            paddingLeft: '6px',
+            paddingRight: '6px'
+          }}>
+            <div>
+              <p><strong>Terms and Conditions:</strong></p>
+              <ol style={{
+                fontWeight: '500',
+                marginTop: '-8px',
+              }}>
+                <li>Goods once sold will not be taken back.</li>
+                <li>No responsibility for breakages during transit.</li>
+                <li>All Disputes subject to Mumbai Jurisdiction only.</li>
+                <li>E.& O.E.</li>
+              </ol>
+            </div>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+              <p style={{
+                fontWeight: 'bolder',
+                fontSize: '16px'
+              }}><strong>For Wave Multitrade</strong></p>
+              <p><strong>Authorised Signatory</strong></p>
+            </div>
           </div>
-          <div className="terms">
-            <p><strong>Terms and Conditions:</strong></p>
 
-          </div>
-          <div className="signature">
-            <p><strong>Signature:</strong> ____________________</p>
-          </div>
 
-  
+          {/*   
           <div style={{
             height: '20px',
             width: '100%',
             background: 'black',
 
-          }}></div>
+          }}></div> */}
         </div>
-
+        </div>
       </div>
 
       <button style={{
