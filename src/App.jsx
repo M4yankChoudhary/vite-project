@@ -100,8 +100,8 @@ function App() {
   const handleDownload = () => {
     const element = document.getElementById("content-to-pdf");
     html2pdf(element, {
-      filename: "downloaded-content.pdf", 
-      html2canvas: { scale: 2 }, 
+      filename: "downloaded-content.pdf",
+      html2canvas: { scale: 2 },
       jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
     });
   };
@@ -114,14 +114,16 @@ function App() {
   const Layout1 = () => {
     const total = itemBreakdown.reduce((sum, itm) => sum + itm.value, 0);
     return (
-      <div 
-        className="pdf-preview" 
+      <div
+        className="pdf-preview"
         style={{
-          padding:'6px',
-          marginTop:'100px',
-          borderRadius:'0px',
-          border:'1px solid black',
-          display:'flex',
+          padding: '6px',
+
+          borderRadius: '0px',
+          border: '1px solid black',
+          display: 'flex',
+          minHeight: '800px',
+          marginTop: '20px',
         }}
       >
         <div style={{
@@ -176,7 +178,7 @@ function App() {
               flexDirection: 'row'
             }}>
               <p>
-                <strong>Sr. No.</strong> &nbsp;&nbsp; 
+                <strong>Sr. No.</strong> &nbsp;&nbsp;
               </p>
               <div style={{
                 display: 'flex',
@@ -252,7 +254,7 @@ function App() {
                   width: '100%',
                   marginLeft: '6px',
                   borderBottom: '1px dotted black',
-                }}/>
+                }} />
               </div>
             </div>
           </div>
@@ -367,7 +369,7 @@ function App() {
     const total = itemBreakdown.reduce((sum, itm) => sum + itm.value, 0);
 
     return (
-      <div 
+      <div
         className="pdf-preview"
         style={{
           margin: '60px auto',
@@ -375,8 +377,9 @@ function App() {
           border: '1px solid #333',
           width: '800px',
           fontFamily: 'Arial, sans-serif',
-          backgroundColor: '#f9f9f9'
-      }}>
+          backgroundColor: '#f9f9f9',
+          minHeight: '800px'
+        }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '20px' }}>
           <h1 style={{ margin: '0', fontSize: '36px', letterSpacing: '2px' }}>{titleValue}</h1>
@@ -399,7 +402,7 @@ function App() {
 
         {/* Client Details */}
         <div style={{ marginBottom: '15px' }}>
-          <strong>Bill To:</strong> 
+          <strong>Bill To:</strong>
           <span style={{
             marginLeft: '8px',
             borderBottom: '1px dotted #000',
@@ -439,7 +442,7 @@ function App() {
             <p style={{ margin: '5px 0', fontSize: '16px', fontWeight: 'bold' }}>Total: ₹{total}</p>
           </div>
         </div>
-        <hr style={{ marginTop: '20px', borderTop: '1px solid #333' }}/>
+        <hr style={{ marginTop: '20px', borderTop: '1px solid #333' }} />
         {/* Footer */}
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '15px' }}>
           <div style={{ fontSize: '12px' }}>
@@ -465,13 +468,14 @@ function App() {
     const total = itemBreakdown.reduce((sum, itm) => sum + itm.value, 0);
 
     return (
-      <div 
+      <div
         className="pdf-preview"
         style={{
           margin: '60px auto',
           padding: '20px',
           border: '2px solid #555',
           width: '800px',
+          minHeight: '800px',
           fontFamily: 'Tahoma, sans-serif',
           backgroundColor: '#fffbe6'
         }}
@@ -573,13 +577,14 @@ function App() {
   const Layout4 = () => {
     const total = itemBreakdown.reduce((sum, itm) => sum + itm.value, 0);
     return (
-      <div 
+      <div
         className="pdf-preview"
         style={{
           margin: '60px auto',
           padding: '30px',
           border: 'none',
           width: '800px',
+          minHeight: '800px',
           fontFamily: 'Verdana, sans-serif',
           backgroundColor: '#ffffff',
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
@@ -599,7 +604,7 @@ function App() {
           </div>
           <div>
             <strong>Date:</strong> <span style={{ borderBottom: '1px dotted #000', padding: '0 8px' }}></span>
-            <br/>
+            <br />
             <strong>Invoice #:</strong> <span style={{ borderBottom: '1px dotted #000', padding: '0 8px' }}></span>
           </div>
         </div>
@@ -616,11 +621,11 @@ function App() {
         </div>
         {/* Items Table */}
         <table style={{
-            width: '100%',
-            borderCollapse: 'collapse',
-            marginBottom: '20px',
-            fontSize: '14px'
-          }}>
+          width: '100%',
+          borderCollapse: 'collapse',
+          marginBottom: '20px',
+          fontSize: '14px'
+        }}>
           <thead style={{ backgroundColor: '#f0f0f0' }}>
             <tr>
               <th style={{ padding: '10px', border: '1px solid #ddd' }}>#</th>
@@ -676,13 +681,14 @@ function App() {
   const Layout5 = () => {
     const total = itemBreakdown.reduce((sum, itm) => sum + itm.value, 0);
     return (
-      <div 
-        className="pdf-preview" 
+      <div
+        className="pdf-preview"
         style={{
           margin: '60px auto',
           padding: '20px',
           border: '1px solid #ddd',
           width: '800px',
+          minHeight: '800px',
           fontFamily: 'Calibri, sans-serif',
           backgroundColor: '#fff',
           boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
@@ -698,7 +704,7 @@ function App() {
           </div>
           <div style={{ textAlign: 'right' }}>
             <strong>Date:</strong> <span style={{ borderBottom: '1px dotted #000', padding: '0 8px' }}></span>
-            <br/>
+            <br />
             <strong>Invoice #:</strong> <span style={{ borderBottom: '1px dotted #000', padding: '0 8px' }}></span>
           </div>
         </div>
@@ -750,16 +756,17 @@ function App() {
   const Layout6 = () => {
     const total = itemBreakdown.reduce((sum, itm) => sum + itm.value, 0);
     return (
-      <div 
+      <div
         className="pdf-preview"
         style={{
           margin: '60px auto',
           padding: '30px',
+          minHeight: '800px',
           border: '2px solid #4CAF50',
           width: '800px',
           fontFamily: 'Segoe UI, sans-serif',
           backgroundColor: '#ffffff'
-      }}>
+        }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
           <div>
             <h2 style={{ margin: 0 }}>{titleValue}</h2>
@@ -818,11 +825,12 @@ function App() {
   const Layout7 = () => {
     const total = itemBreakdown.reduce((sum, itm) => sum + itm.value, 0);
     return (
-      <div 
+      <div
         className="pdf-preview"
         style={{
           margin: '60px auto',
           padding: '40px',
+          minHeight: '800px',
           width: '800px',
           fontFamily: 'Georgia, serif',
           backgroundColor: '#fafafa',
@@ -890,14 +898,15 @@ function App() {
   const Layout8 = () => {
     const total = itemBreakdown.reduce((sum, itm) => sum + itm.value, 0);
     return (
-      <div 
+      <div
         className="pdf-preview"
         style={{
           margin: '60px auto',
           width: '800px',
+          minHeight: '800px',
           fontFamily: 'Helvetica, sans-serif',
           boxShadow: '0 3px 6px rgba(0,0,0,0.1)'
-      }}>
+        }}>
         <div style={{ backgroundColor: '#007BFF', color: '#fff', padding: '20px', textAlign: 'center' }}>
           <h2 style={{ margin: 0, fontSize: '34px' }}>{titleValue}</h2>
           <p style={{ margin: '5px 0', fontSize: '12px', whiteSpace: 'pre-line' }}>{addressValue}</p>
@@ -961,11 +970,12 @@ function App() {
   const Layout9 = () => {
     const total = itemBreakdown.reduce((sum, itm) => sum + itm.value, 0);
     return (
-      <div 
+      <div
         className="pdf-preview"
         style={{
           margin: '60px auto',
           width: '800px',
+          minHeight: '800px',
           fontFamily: 'Trebuchet MS, sans-serif',
           boxShadow: '0 4px 8px rgba(0,0,0,0.1)'
         }}
@@ -1023,11 +1033,12 @@ function App() {
   const Layout10 = () => {
     const total = itemBreakdown.reduce((sum, itm) => sum + itm.value, 0);
     return (
-      <div 
+      <div
         className="pdf-preview"
         style={{
           margin: '60px auto',
           padding: '40px',
+          minHeight: '800px',
           width: '800px',
           fontFamily: 'Times New Roman, serif',
           backgroundColor: '#f5f5f5',
